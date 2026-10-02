@@ -13,16 +13,16 @@ const Part = (props) => {
 const Content = (props) => {
   return (
     <div>
-      <Part part={props.part1.name} exercises={props.part1.exercises} />
-      <Part part={props.part2.name} exercises={props.part2.exercises} />
-      <Part part={props.part3.name} exercises={props.part3.exercises} />
+      {props.parts.map(part => (
+        <Part key={part.name} part={part.name} exercises={part.exercises} />
+      ))}
     </div>
   )
 }
 
 const Total = (props) => {
   return (
-    <p>Number of exercises {props.part1.exercises + props.part2.exercises + props.part3.exercises}</p>
+    <p>Number of exercises {props.parts.reduce((sum, part) => sum + part.exercises, 0)}</p>
   )
 }
 
@@ -39,18 +39,11 @@ const Footer = (props) => {
 
 const App = () => {
   const course = 'CSIT340 - Industry Elective 1'
-  const part1 = {
-    name: 'CSIT321 (Database Systems)',
-    exercises: 3
-  }
-  const part2 = {
-    name: 'MATH211 (Discrete Mathematics)',
-    exercises: 3
-  }
-  const part3 = {
-    name: 'CSIT227 (Object-Oriented Programming)',
-    exercises: 3
-  }
+  const parts = [
+    { name: 'CSIT321 (Database Systems)', exercises: 3 },
+    { name: 'MATH211 (Discrete Mathematics)', exercises: 3 },
+    { name: 'CSIT227 (Object-Oriented Programming)', exercises: 3 }
+  ]
 
   const student = {
     fullName: 'Chad Ellie Sanchez',
@@ -61,8 +54,8 @@ const App = () => {
   return (
     <div>
       <Header course={course} />
-      <Content part1={part1} part2={part2} part3={part3} />
-      <Total part1={part1} part2={part2} part3={part3} />
+      <Content parts={parts} />
+      <Total parts={parts} />
       <Footer
         fullName={student.fullName}
         courseCode={student.courseCode}
